@@ -1,0 +1,41 @@
+---
+# Assumes you have run the flask.yml playbook already
+- name: "Deploy Git Flask Project"
+  hosts: target
+  #remote_user: ubuntu
+  tasks:
+      #      - name: add github.com to known hosts
+      #        shell: ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts
+      #        become: yes
+
+      - name: clone repo
+        git:
+            repo: "{{ repo_name }}"
+            dest: /home/ubuntu/repo
+            accept_hostkey: yes
+
+      - name: install dependencies
+        pip:
+            requirements: /home/ubuntu/repo/requirements.txt
+
+      - name: copy nginx.conf file
+        copy:
+            src: /home/ubuntu/repo/config/nginx.conf
+            dest: /etc/nginx/nginx.conf
+            remote_src: yes
+        become: yes
+
+      - name: find gunicorn service file
+        find:
+            paths: /home/ubuntu/repo/config/
+            patterns: "*.service"
+        register: gunicorn_result
+
+      - name: copy gunicorn service file
+        copy:
+            src: "{{ gunicorn_result.files[0]['path'] }}"
+            dest: /etc/systemd/system/
+            remote_src: yes
+        become: yes
+...
+
