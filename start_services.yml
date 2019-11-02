@@ -1,0 +1,20 @@
+---
+- name: "Start nginx and gunicorn services"
+  hosts: target
+  #remote_user: ubuntu
+  tasks:
+      - name: start nginx
+        command: nginx
+        become: yes
+
+      - name: find gunicorn service file
+        find:
+            paths: /home/ubuntu/repo/config/
+            patterns: "*.service"
+        register: gunicorn_result
+
+      - name: start gunicorn
+        command: "systemctl start {{ gunicorn_result.files[0]['path'] | basename }}"
+        become: yes
+...
+
