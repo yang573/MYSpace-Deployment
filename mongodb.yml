@@ -1,0 +1,27 @@
+---
+- name: "Deploy MongoDB"
+  #hosts: target
+  #remote_user: ubuntu
+  tasks:
+      - name: setup nginx remote
+        apt:
+            pkg:
+            - gnupg2
+            - ca-certificates
+            - lsb-release
+        become: yes
+
+      - name: add MondoDB signing key
+        command: wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+
+      - name: add MongoDB apt source
+        command: echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+      - name: install MongoDB packages
+        apt:
+            name: mongodb-org
+            state: latest
+            update_cache: yes
+        become: yes
+...
+

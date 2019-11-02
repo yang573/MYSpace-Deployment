@@ -1,0 +1,41 @@
+---
+- name: "Deploy Flask"
+  #hosts: target
+  #remote_user: ubuntu
+  tasks:
+      - name: setup nginx remote
+        apt:
+            pkg:
+            - curl
+            - gnupg2
+            - ca-certificates
+            - lsb-release
+        become: yes
+
+      - name: add apt source
+        command: echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
+
+      - name: add nginx signing key
+        command: curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
+
+      - name: add key
+        command: sudo apt-key fingerprint ABF5BD827BD9BF62
+
+      - name: install apt packages
+        apt:
+            name: "{{ packages }}"
+            state: latest
+        vars:
+            packages:
+            - python3
+            - python3-pip
+            - python3-setuptools
+            - nginx
+        become: yes
+        update_cache: yes
+
+      - name: install Flask
+        pip:
+            name: Flask
+...
+
