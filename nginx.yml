@@ -1,9 +1,9 @@
 ---
-- name: "Deploy Flask"
+- name: "Deploy Nginx"
   hosts: '{{ host }}'
   #remote_user: ubuntu
   tasks:
-      - name: setup nginx install dependencies
+      - name: setup nginx remote
         apt:
             pkg:
             - gnupg2
@@ -26,16 +26,9 @@
 
       - name: install python and nginx packages
         apt:
-            pkg:
-            - python3
-            - python3-pip
-            - python3-setuptools
-            - nginx
+            name: nginx
+            state: latest
             update_cache: yes
         become: yes
-
-      - name: install Flask
-        pip:
-            name: Flask
 ...
 

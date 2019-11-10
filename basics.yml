@@ -1,0 +1,14 @@
+---
+- name: "Install basic apt packages"
+  hosts: '{{ host }}'
+  #remote_user: ubuntu
+  tasks:
+      - name: Apt install
+        apt:
+            pkg:
+            - git
+            - vim
+            update_cache: yes
+        become: yes
+...
+

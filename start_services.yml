@@ -1,7 +1,7 @@
 ---
 - name: "Start nginx and gunicorn services"
-  hosts: target
-  #remote_user: ubuntu
+  hosts: '{{ host }}'
+  remote_user: '{{ user }}'
   tasks:
       - name: start nginx
         command: nginx
@@ -9,7 +9,7 @@
 
       - name: find gunicorn service file
         find:
-            paths: /home/ubuntu/repo/config/
+            paths: "/home/{{user}}/repo/config/"
             patterns: "*.service"
         register: gunicorn_result
 

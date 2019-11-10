@@ -3,11 +3,12 @@
   hosts: '{{ host }}'
   #remote_user: ubuntu
   tasks:
-      - name: setup nginx remote
+      - name: setup mongodb install dependencies
         apt:
             pkg:
             - gnupg2
             - ca-certificates
+            update_cache: yes
         become: yes
 
       - name: add MondoDB signing key
@@ -29,5 +30,10 @@
             state: latest
             update_cache: yes
         become: yes
+
+      - name: start MongoDB service
+        service:
+            name: mongod
+            state: started
 ...
 
