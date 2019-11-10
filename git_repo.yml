@@ -1,7 +1,7 @@
 ---
 # Assumes you have run the flask.yml playbook already
 - name: "Deploy Git Flask Project"
-  hosts: target
+  hosts: '{{ host }}'
   #remote_user: ubuntu
   tasks:
       #      - name: add github.com to known hosts

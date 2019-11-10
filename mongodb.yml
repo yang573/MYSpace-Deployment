@@ -1,6 +1,6 @@
 ---
 - name: "Deploy MongoDB"
-  hosts: target
+  hosts: '{{ host }}'
   #remote_user: ubuntu
   tasks:
       - name: setup nginx remote
