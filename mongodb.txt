@@ -1,0 +1,17 @@
+use admin
+
+db.createUser({ user:'admin', pwd:'ferdman', roles: [{ role: 'dbOwner', db:'admin' },{ role: 'root', db:'admin' }], authenticationRestrictions: [{serverAddress:["127.0.0.1"]}] })
+
+# Not sure if this works
+db.createUser({ user:'admin', pwd:'ferdman', roles: [{ role: "userAdminAnyDatabase", db: "admin" },{ role: "readWriteAnyDatabase", db: "admin" },{ role: "dbAdminAnyDatabase", db: "admin" }], authenticationRestrictions: [{clientSource:["0.0.0.0/0"], serverAddress:["127.0.0.1"]}] })
+
+# Posts
+use Posts
+db.createUser({ user:'service', pwd:'yoshi', roles: [{ role: "readWrite", db: "Posts" }], authenticationRestrictions: [{clientSource:["10.128.0.0/9"], serverAddress:["10.150.0.5"]}] })
+
+# Profiles
+use Profiles
+db.createUser({ user:'service', pwd:'yoshi', roles: [{ role: "readWrite", db: "Profiles" }], authenticationRestrictions: [{clientSource:["10.128.0.0/9"], serverAddress:["10.150.0.4"]}] })
+
+mongo -u [user] [ip]/[db_name]
+
