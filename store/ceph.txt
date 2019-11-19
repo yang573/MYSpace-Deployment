@@ -1,0 +1,36 @@
+### ceph-deploy node setup
+# Get apt package
+wget -q -O- 'https://download.ceph.com/keys/release.asc' | sudo apt-key add -
+echo deb https://download.ceph.com/debian-nautilus/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list
+sudo apt update
+sudo apt install ceph-deploy
+
+# For each ceph node
+sudo apt install ntp
+sudo timedatetl set-ntp off
+sudo systemctl enable ntp
+
+# For each ceph node
+sudo useradd -d /home/ceph-admin -m ceph-admin
+sudo passwd ceph-admin
+echo "ceph-admin ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ceph-admin
+sudo chmod 0440 /etc/sudoers.d/ceph-admin
+
+sudo useradd -d /home/ceph-cluster -m ceph-cluster
+sudo passwd ceph-cluster
+echo "ceph-cluster ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ceph-cluster
+sudo chmod 0440 /etc/sudoers.d/ceph-cluster
+
+# In children nodes
+sudo su ceph-cluster
+cd
+mkdir .ssh
+chmod 1700 .ssh/
+touch .ssh/authorized_keys
+chmod 0600 .ssh/authorized_keys
+
+# In /home/ceph-admin/.ssh/config
+Host ceph-cluster-1
+    Hostname ceph-cluster-1
+    User ceph-cluster
+...

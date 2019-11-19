@@ -34,8 +34,10 @@
             update_cache: yes
         become: yes
 
-      - name: install Flask
+      - name: install Flask and virtualenv
         pip:
-            name: Flask
+            name:
+                - Flask
+                - virtualenv
 ...
 

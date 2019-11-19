@@ -1,0 +1,13 @@
+---
+- name: "Setup ceph child nodes"
+  hosts: '{{ host }}'
+  #remote_user: ubuntu
+  tasks:
+      - name: Apt install python2
+        apt:
+            name: python
+            state: latest
+            update_cache: yes
+        become: yes
+...
+

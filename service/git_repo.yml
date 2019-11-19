@@ -14,9 +14,9 @@
             dest: "/home/{{user}}/repo"
             accept_hostkey: yes
 
-      - name: install dependencies
-        pip:
-            requirements: "/home/{{user}}/repo/requirements.txt"
+#      - name: install dependencies
+#        pip:
+#            requirements: "/home/{{user}}/repo/requirements.txt"
 
       - name: copy nginx.conf file
         copy:

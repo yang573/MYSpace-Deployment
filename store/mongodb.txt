@@ -7,11 +7,11 @@ db.createUser({ user:'admin', pwd:'ferdman', roles: [{ role: "userAdminAnyDataba
 
 # Posts
 use Posts
-db.createUser({ user:'service', pwd:'yoshi', roles: [{ role: "readWrite", db: "Posts" }], authenticationRestrictions: [{clientSource:["10.128.0.0/9"], serverAddress:["10.150.0.5"]}] })
+db.createUser({ user:'service', pwd:'yoshi', roles: [{ role: "readWrite", db: "Posts" }], authenticationRestrictions: [{clientSource:["10.128.0.0/9"], serverAddress:["10.150.0.23"]}] })
 
 # Profiles
 use Profiles
-db.createUser({ user:'service', pwd:'yoshi', roles: [{ role: "readWrite", db: "Profiles" }], authenticationRestrictions: [{clientSource:["10.128.0.0/9"], serverAddress:["10.150.0.4"]}] })
+db.createUser({ user:'service', pwd:'yoshi', roles: [{ role: "readWrite", db: "Profiles" }], authenticationRestrictions: [{clientSource:["10.128.0.0/9"], serverAddress:["10.150.0.24"]}] })
 
 mongo -u [user] [ip]/[db_name]
 
