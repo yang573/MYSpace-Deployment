@@ -14,9 +14,18 @@
             dest: "/home/{{user}}/repo"
             accept_hostkey: yes
 
-#      - name: install dependencies
-#        pip:
-#            requirements: "/home/{{user}}/repo/requirements.txt"
+      - name: create virtualenv directory
+        file:
+            path: "/home/{{user}}/venvs"
+            owner: "ubuntu"
+            state: directory
+        become: yes
+
+      - name: install dependencies
+        pip:
+            requirements: "/home/{{user}}/repo/requirements.txt"
+            virtualenv: "/home/{{user}}/venvs/service"
+            virtualenv_python: python3.6
 
       - name: copy nginx.conf file
         copy:
@@ -36,6 +45,22 @@
             src: "{{ gunicorn_result.files[0]['path'] }}"
             dest: /etc/systemd/system/
             remote_src: yes
+        become: yes
+
+      - name: create log directory
+        file:
+            path: /var/log/gunicorn
+            owner: "ubuntu"
+            group: "root"
+            state: directory
+        become: yes
+
+      - name: create symlink from repo to gunicorn logs
+        file:
+            src: /var/log/gunicorn
+            dest: "/home/{{user}}/repo"
+            owner: "ubuntu"
+            state: link
         become: yes
 ...
 
