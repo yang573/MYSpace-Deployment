@@ -14,7 +14,9 @@
         register: gunicorn_result
 
       - name: restart gunicorn
-        command: "systemctl restart {{ gunicorn_result.files[0]['path'] | basename }}"
+		systemd:
+			state: restarted
+			name: "{{ gunicorn_result.files[0]['path'] | basename }}"
         become: yes
 ...
 

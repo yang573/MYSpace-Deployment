@@ -3,7 +3,7 @@
   hosts: '{{ host }}'
   #remote_user: ubuntu
   tasks:
-      - name: install python and nginx packages
+      - name: install python packages
         apt:
             pkg:
             - python3

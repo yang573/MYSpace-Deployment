@@ -1,15 +1,31 @@
 ---
-- name: "Install basic apt packages"
+- name: "Upgrade and install basic apt packages"
   hosts: '{{ host }}'
-  #remote_user: ubuntu
+  remote_user: '{{ user }}'
   tasks:
-      - name: Apt install
+      - name: apt upgrade
+        apt:
+            name: "*"
+            state: latest
+            update_cache: yes
+        become: yes
+
+      - name: apt install
         apt:
             pkg:
-            - git
             - vim
             - ntp
-            update_cache: yes
+        become: yes
+
+      - name: disable ntp in timedatectl
+        command: timedatectl set-ntp off
+        become: yes
+
+      - name: start and enable ntp
+        systemd:
+            state: started
+            enabled: yes
+            name: ntp
         become: yes
 ...
 

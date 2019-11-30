@@ -8,6 +8,13 @@
       #        shell: ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts
       #        become: yes
 
+      - name: install git as needed
+        apt:
+            name: git
+            state: present
+            update_cache: yes
+        become: yes
+
       - name: clone repo
         git:
             repo: "{{ repo_name }}"

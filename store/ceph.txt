@@ -7,8 +7,9 @@ sudo apt install ceph-deploy
 
 # For each ceph node
 sudo apt install ntp
-sudo timedatetl set-ntp off
+sudo timedatectl set-ntp off
 sudo systemctl enable ntp
+sudo systemctl start ntp
 
 # For each ceph node
 sudo useradd -d /home/ceph-admin -m ceph-admin

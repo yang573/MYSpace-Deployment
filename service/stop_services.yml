@@ -14,7 +14,9 @@
         register: gunicorn_result
 
       - name: stop gunicorn
-        command: "systemctl stop {{ gunicorn_result.files[0]['path'] | basename }}"
+		systemd:
+			state: stopped
+			name: "{{ gunicorn_result.files[0]['path'] | basename }}"
         become: yes
 ...
 
